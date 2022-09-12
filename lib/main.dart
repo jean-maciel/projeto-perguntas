@@ -7,28 +7,52 @@ void main(List<String> args) {
 }
 
 class PerguntaAppState extends State<PerguntaApp> {
+  var pontuacaoTotal = 0;
   var perguntaSelecionada = 0;
   final List<Map<String, Object>> perguntas = const [
     {
       'pergunta': 'Qual é sua cor favorita?',
-      'respostas': ['Preto', 'Vermelho', 'Verde', 'Branco']
+      'respostas': [
+        {'texto': 'Preto', 'pontuacao': 10},
+        {'texto': 'Vermelho', 'pontuacao': 5},
+        {'texto': 'Verde', 'pontuacao': 3},
+        {'texto': 'Branco', 'pontuacao': 1},
+      ]
     },
     {
       'pergunta': 'Qual seu animal favorito?',
-      'respostas': ['Coelho', 'Cachorro', 'Gato', 'Rato']
+      'respostas': [
+        {'texto': 'Coelho', 'pontuacao': 10},
+        {'texto': 'Cachorro', 'pontuacao': 5},
+        {'texto': 'Gato', 'pontuacao': 3},
+        {'texto': 'Rato', 'pontuacao': 1},
+      ]
     },
     {
       'pergunta': 'Qual sua comida favorita?',
-      'respostas': ['Pizza', 'Sushi', 'Pastel', 'Hamburguer']
+      'respostas': [
+        {'texto': 'Pizza', 'pontuacao': 10},
+        {'texto': 'Sushi', 'pontuacao': 5},
+        {'texto': 'Pastel', 'pontuacao': 3},
+        {'texto': 'Hamburguer', 'pontuacao': 1},
+      ]
     },
   ];
 
-  void responder() {
+  void responder(int pontuacao) {
     if (temPerguntaSelecionada) {
       setState(() {
         perguntaSelecionada++;
+        pontuacaoTotal+= pontuacao;
       });
     }
+  }
+
+  void reiniciarQuestionario() {
+    setState(() {
+      perguntaSelecionada = 0;
+      pontuacaoTotal = 0;
+    });
   }
 
   bool get temPerguntaSelecionada {
@@ -51,7 +75,7 @@ class PerguntaAppState extends State<PerguntaApp> {
                   perguntaSelecionada: perguntaSelecionada,
                   responder: responder,
                 )
-              : const Resultado(),
+              : Resultado(pontuacaoTotal, reiniciarQuestionario),
         ),
       ),
     );
